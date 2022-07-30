@@ -1,14 +1,16 @@
 const CustomerService = require('../services/customer-service');
+const { SubscribeMessage } = require('../utils');
 const  UserAuth = require('./middlewares/auth');
 
-module.exports = (app) => {
+module.exports = (app, channel) => {
 
     const service = new CustomerService();
+    SubscribeMessage(channel, service)
 
     app.post('/signup', async (req,res,next) => {
         try {
             const { email, password, phone } = req.body;
-            const { data } = await service.SignUp({ email, password, phone}); 
+            const { data } = await service.SignUp({ email, password, phone});
            return res.json(data);
 
         } catch (err) {

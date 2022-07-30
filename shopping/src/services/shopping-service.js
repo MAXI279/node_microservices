@@ -25,14 +25,12 @@ class ShoppingService {
 
         // Verify the txn number with payment logs
 
-
-
-        // try {
+        try {
             const orderResult = await this.repository.CreateNewOrder(_id, txnNumber);
             return FormateData(orderResult);
-        // } catch (err) {
-        //     throw new APIError('Data Not found', err)
-        // }
+        } catch (err) {
+            throw new APIError('Data Not found', err)
+        }
 
     }
 
@@ -58,6 +56,8 @@ class ShoppingService {
     }
 
     async SubscribeEvents(payload){
+
+        payload = JSON.parse(payload)
 
         const { event, data } =  payload;
 
